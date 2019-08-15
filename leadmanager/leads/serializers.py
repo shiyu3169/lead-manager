@@ -7,4 +7,4 @@ from leads.models import Lead
 class LeadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lead
-        fields = '__all'
+        fields = '__all__'
