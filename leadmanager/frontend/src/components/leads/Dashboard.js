@@ -1,5 +1,5 @@
 import React from 'react';
-import From, { Form } from './Form';
+import Form from './Form';
 import Leads from './Leads';
 
 function Dashboard() {
