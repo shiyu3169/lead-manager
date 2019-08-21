@@ -5,7 +5,9 @@ import {
   USER_LOADING,
   AUTH_ERROR,
   LOGIN_SUCCESS,
-  LOGIN_FAIL
+  LOGIN_FAIL,
+  REGISTER_SUCCESS,
+  REGISTER_FAIL
 } from './types';
 
 // CHECK TOKEN & LOAD USER
@@ -76,7 +78,7 @@ export const logout = () => (dispatch, getState) => {
 };
 
 // Setup config with token - helper function
-const tokenConfig = getState => {
+export const tokenConfig = getState => {
   // Get token from state
   const token = getState().auth.token;
 
@@ -92,4 +94,32 @@ const tokenConfig = getState => {
     config.headers['Authorization'] = `Token ${token}`;
   }
   return config;
+};
+
+// Register USER
+export const register = user => dispatch => {
+  // Headers
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  // Request Body
+  const body = JSON.stringify(user);
+
+  axios
+    .post('/api/auth/register', body, config)
+    .then(res => {
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: REGISTER_FAIL
+      });
+    });
 };
